@@ -1,4 +1,4 @@
-package com.example;
+package nablarch.core.log;
 
 public class MockException extends Exception {
 

@@ -1,6 +1,7 @@
-package com.example;
+package nablarch.core.log;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Objects;
 
@@ -12,7 +13,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nablarch.core.log.LoggerManager;
 import nablarch.core.log.basic.LogContext;
 import nablarch.core.log.basic.LogLevel;
 
@@ -353,5 +353,48 @@ class NablarchLoggerTest {
 			logger.trace("test", new MockException());
 			MockLogWriter.assertLog(expected("test", new MockException()));
 		}
+	}
+
+	@Test
+	public void logLevelDoNotMatch() {
+		LoggerManager.get(""); //ロガー初期化のログを捨てるため、ここで一度Nablachのロガーを取得しておく
+		MockLogWriter.init();
+		Logger logger = LoggerFactory.getLogger("fatal");
+		logger.error("");
+		logger.error("", 1);
+		logger.error("", 1, 2);
+		logger.error("", 1, 2, 3);
+		logger.error("", new MockException());
+		logger.error("", 1, new MockException());
+		logger.error("", 1, 2, new MockException());
+		logger.warn("");
+		logger.warn("", 1);
+		logger.warn("", 1, 2);
+		logger.warn("", 1, 2, 3);
+		logger.warn("", new MockException());
+		logger.warn("", 1, new MockException());
+		logger.warn("", 1, 2, new MockException());
+		logger.info("");
+		logger.info("", 1);
+		logger.info("", 1, 2);
+		logger.info("", 1, 2, 3);
+		logger.info("", new MockException());
+		logger.info("", 1, new MockException());
+		logger.info("", 1, 2, new MockException());
+		logger.debug("");
+		logger.debug("", 1);
+		logger.debug("", 1, 2);
+		logger.debug("", 1, 2, 3);
+		logger.debug("", new MockException());
+		logger.debug("", 1, new MockException());
+		logger.debug("", 1, 2, new MockException());
+		logger.trace("");
+		logger.trace("", 1);
+		logger.trace("", 1, 2);
+		logger.trace("", 1, 2, 3);
+		logger.trace("", new MockException());
+		logger.trace("", 1, new MockException());
+		logger.trace("", 1, 2, new MockException());
+		assertTrue(MockLogWriter.getQueue().isEmpty());
 	}
 }

@@ -1,4 +1,4 @@
-package com.example;
+package nablarch.core.log;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -49,5 +49,9 @@ public class MockLogWriter implements LogWriter {
 
 	private static String stringify(final LogContext lc) {
 		return String.format("%s %s %s", lc.getLevel(), lc.getMessage(), lc.getError());
+	}
+
+	public static Queue<LogContext> getQueue() {
+		return queue;
 	}
 }

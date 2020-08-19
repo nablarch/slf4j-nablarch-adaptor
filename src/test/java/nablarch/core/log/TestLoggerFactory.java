@@ -1,8 +1,7 @@
-package com.example;
+package nablarch.core.log;
 
 import java.util.concurrent.TimeUnit;
 
-import nablarch.core.log.Logger;
 import nablarch.core.log.basic.BasicLoggerFactory;
 
 public class TestLoggerFactory extends BasicLoggerFactory {

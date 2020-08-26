@@ -1,4 +1,4 @@
-package com.example;
+package nablarch.core.log;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 

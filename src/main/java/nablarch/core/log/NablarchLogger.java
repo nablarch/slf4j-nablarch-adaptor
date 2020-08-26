@@ -1,4 +1,4 @@
-package com.example;
+package nablarch.core.log;
 
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MarkerIgnoringBase;
@@ -6,10 +6,22 @@ import org.slf4j.helpers.MessageFormatter;
 
 import nablarch.core.log.Logger;
 
+/**
+ * SLF4Jのロガーを実装したクラス。
+ *
+ * ログ出力をNablarchのロガーに委譲する。
+ *
+ * @author Kiyohito Itoh
+ */
 public class NablarchLogger extends MarkerIgnoringBase {
 
+	/** Nablarchのロガー */
 	private final Logger logger;
 
+	/**
+	 * コンストラクタ。
+	 * @param logger Nablarchのロガー
+	 */
 	public NablarchLogger(final Logger logger) {
 		this.logger = logger;
 	}

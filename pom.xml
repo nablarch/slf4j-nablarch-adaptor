@@ -8,11 +8,6 @@
 	<artifactId>slf4j-nablarch-adaptor</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 
-	<properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-	</properties>
-
 	<scm>
 		<connection>scm:git:git://github.com/nablarch/${project.artifactId}.git</connection>
 		<developerConnection>scm:git:git://github.com/nablarch/${project.artifactId}.git</developerConnection>
@@ -43,9 +38,8 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter</artifactId>
-			<version>5.6.2</version>
+			<groupId>com.nablarch.dev</groupId>
+			<artifactId>nablarch-test-support</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

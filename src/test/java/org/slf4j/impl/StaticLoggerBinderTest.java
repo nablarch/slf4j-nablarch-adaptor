@@ -1,14 +1,15 @@
 package org.slf4j.impl;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
-class StaticLoggerBinderTest {
+public class StaticLoggerBinderTest {
 
     @Test
-    void loggerFactoryClassStr() {
-        assertEquals("nablarch.core.log.NablarchLoggerFactory",
-                StaticLoggerBinder.getSingleton().getLoggerFactoryClassStr());
+    public void loggerFactoryClassStr() {
+        assertThat(StaticLoggerBinder.getSingleton().getLoggerFactoryClassStr(),
+                is("nablarch.core.log.NablarchLoggerFactory"));
     }
 }

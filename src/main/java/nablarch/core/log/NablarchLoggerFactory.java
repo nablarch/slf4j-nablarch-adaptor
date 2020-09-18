@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 public class NablarchLoggerFactory implements ILoggerFactory {
 
 	/** 生成されたSLF4Jのロガーを保持するマップ */
-	private final ConcurrentMap<String, NablarchLogger> loggers = new ConcurrentHashMap<>();
+	private final ConcurrentMap<String, NablarchLogger> loggers = new ConcurrentHashMap<String, NablarchLogger>();
 
 	@Override
 	public Logger getLogger(final String name) {

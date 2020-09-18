@@ -1,20 +1,18 @@
 package nablarch.core.log;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.Objects;
-import java.util.Queue;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-
 import nablarch.core.log.basic.LogContext;
 import nablarch.core.log.basic.LogWriter;
 import nablarch.core.log.basic.ObjectSettings;
 
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingDeque;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 public class MockLogWriter implements LogWriter {
 
-	private static final Queue<LogContext> queue = new LinkedBlockingDeque<>();
+	private static final Queue<LogContext> queue = new LinkedBlockingDeque<LogContext>();
 
 	@Override
 	public void initialize(final ObjectSettings settings) {
@@ -34,17 +32,25 @@ public class MockLogWriter implements LogWriter {
 	}
 
 	public static void assertLog(final LogContext expected) {
-		assertEquals(1, queue.size(), () -> queue.stream().map(MockLogWriter::stringify)
-				.collect(Collectors.joining(System.lineSeparator())));
-
+		assertThat(queue.size(), is(1));
 		final LogContext lc = queue.remove();
-		final Supplier<String> messageSupplier = () -> stringify(lc);
-		assertEquals(Objects.requireNonNull(expected.getLoggerName()), lc.getLoggerName(),
-				messageSupplier);
-		assertEquals(Objects.requireNonNull(expected.getLevel()), lc.getLevel(), messageSupplier);
-		assertEquals(Objects.requireNonNull(expected.getMessage()), lc.getMessage(),
-				messageSupplier);
-		assertEquals(expected.getError(), lc.getError(), messageSupplier);
+		assertThat(lc.getLoggerName(), is(expected.getLoggerName()));
+		assertThat(lc.getLevel(), is(expected.getLevel()));
+		assertThat(lc.getMessage(), is(expected.getMessage()));
+		assertThat(lc.getError(), is(expected.getError()));
+	}
+
+	private final static String LS = System.getProperty("line.separator");
+
+	private static String all() {
+		StringBuilder builder = new StringBuilder();
+		for (LogContext context : queue) {
+			if (builder.length() != 0) {
+				builder.append(LS);
+			}
+			builder.append(stringify(context));
+		}
+		return builder.toString();
 	}
 
 	private static String stringify(final LogContext lc) {

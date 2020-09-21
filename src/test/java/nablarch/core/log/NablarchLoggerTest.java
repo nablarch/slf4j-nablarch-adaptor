@@ -4,6 +4,8 @@ import nablarch.core.log.basic.LogContext;
 import nablarch.core.log.basic.LogLevel;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.runners.Enclosed;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,114 +15,118 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+@RunWith(Enclosed.class)
 public class NablarchLoggerTest {
 
-	static class IsEnabledTestParameter {
-		public String name;
-		public boolean expected;
-		// stringParameter => name|expected
-		static List<IsEnabledTestParameter> of(String ...stringParameters) {
-			List<IsEnabledTestParameter> parameters = new ArrayList<IsEnabledTestParameter>();
-			for (String stringParameter : stringParameters) {
-				String[] params = stringParameter.split("\\|");
-				IsEnabledTestParameter isEnabledTestParameter = new IsEnabledTestParameter();
-				isEnabledTestParameter.name = params[0].trim();
-				isEnabledTestParameter.expected = Boolean.valueOf(params[1].trim());
-				parameters.add(isEnabledTestParameter);
+	public static class NablarchLoggerEnableTest {
+
+		static class IsEnabledTestParameter {
+			public String name;
+			public boolean expected;
+			// stringParameter => name|expected
+			static List<IsEnabledTestParameter> of(String ...stringParameters) {
+				List<IsEnabledTestParameter> parameters = new ArrayList<IsEnabledTestParameter>();
+				for (String stringParameter : stringParameters) {
+					String[] params = stringParameter.split("\\|");
+					IsEnabledTestParameter isEnabledTestParameter = new IsEnabledTestParameter();
+					isEnabledTestParameter.name = params[0].trim();
+					isEnabledTestParameter.expected = Boolean.valueOf(params[1].trim());
+					parameters.add(isEnabledTestParameter);
+				}
+				return parameters;
 			}
-			return parameters;
 		}
-	}
 
-	static interface IsEnabled {
-		boolean invoke(Logger logger);
-	}
-
-	private void isEnabledTest(IsEnabled invoker, String... parameters) {
-		for (IsEnabledTestParameter parameter : IsEnabledTestParameter.of(parameters)) {
-			final Logger logger = LoggerFactory.getLogger(parameter.name);
-			assertEquals(parameter.expected, invoker.invoke(logger));
+		interface IsEnabled {
+			boolean invoke(org.slf4j.Logger logger);
 		}
-	}
 
-	@Test
-	public void isErrorEnabled() {
-		IsEnabled invoker = new IsEnabled() {
-			@Override
-			public boolean invoke(Logger logger) {
-				return logger.isErrorEnabled();
+		private void isEnabledTest(IsEnabled invoker, String... parameters) {
+			for (IsEnabledTestParameter parameter : IsEnabledTestParameter.of(parameters)) {
+				final org.slf4j.Logger logger = LoggerFactory.getLogger(parameter.name);
+				assertEquals(parameter.expected, invoker.invoke(logger));
 			}
-		};
-		isEnabledTest(invoker,
-				"error | true",
-				"warn  | true",
-				"info  | true",
-				"debug | true",
-				"trace | true");
-	}
+		}
 
-	@Test
-	public void isWarnEnabled() {
-		IsEnabled invoker = new IsEnabled() {
-			@Override
-			public boolean invoke(Logger logger) {
-				return logger.isWarnEnabled();
-			}
-		};
-		isEnabledTest(invoker,
-				"error | false",
-				"warn  | true",
-				"info  | true",
-				"debug | true",
-				"trace | true");
-	}
+		@Test
+		public void isErrorEnabled() {
+			IsEnabled invoker = new IsEnabled() {
+				@Override
+				public boolean invoke(org.slf4j.Logger logger) {
+					return logger.isErrorEnabled();
+				}
+			};
+			isEnabledTest(invoker,
+					"error | true",
+					"warn  | true",
+					"info  | true",
+					"debug | true",
+					"trace | true");
+		}
 
-	@Test
-	public void isInfoEnabled() {
-		IsEnabled invoker = new IsEnabled() {
-			@Override
-			public boolean invoke(Logger logger) {
-				return logger.isInfoEnabled();
-			}
-		};
-		isEnabledTest(invoker,
-				"error | false",
-				"warn  | false",
-				"info  | true",
-				"debug | true",
-				"trace | true");
-	}
+		@Test
+		public void isWarnEnabled() {
+			IsEnabled invoker = new IsEnabled() {
+				@Override
+				public boolean invoke(org.slf4j.Logger logger) {
+					return logger.isWarnEnabled();
+				}
+			};
+			isEnabledTest(invoker,
+					"error | false",
+					"warn  | true",
+					"info  | true",
+					"debug | true",
+					"trace | true");
+		}
 
-	@Test
-	public void isDebugEnabled() {
-		IsEnabled invoker = new IsEnabled() {
-			@Override
-			public boolean invoke(Logger logger) {
-				return logger.isDebugEnabled();
-			}
-		};
-		isEnabledTest(invoker,
-				"error | false",
-				"warn  | false",
-				"info  | false",
-				"debug | true",
-				"trace | true");
-	}
+		@Test
+		public void isInfoEnabled() {
+			IsEnabled invoker = new IsEnabled() {
+				@Override
+				public boolean invoke(org.slf4j.Logger logger) {
+					return logger.isInfoEnabled();
+				}
+			};
+			isEnabledTest(invoker,
+					"error | false",
+					"warn  | false",
+					"info  | true",
+					"debug | true",
+					"trace | true");
+		}
 
-	@Test
-	public void isTraceEnabled() {
-		IsEnabled invoker = new IsEnabled() {
-			@Override
-			public boolean invoke(Logger logger) {
-				return logger.isTraceEnabled();
-			}
-		};
-		isEnabledTest(invoker,
-				"error | false",
-				"warn  | false",
-				"info  | false",
-				"debug | false",
-				"trace | true");
+		@Test
+		public void isDebugEnabled() {
+			IsEnabled invoker = new IsEnabled() {
+				@Override
+				public boolean invoke(org.slf4j.Logger logger) {
+					return logger.isDebugEnabled();
+				}
+			};
+			isEnabledTest(invoker,
+					"error | false",
+					"warn  | false",
+					"info  | false",
+					"debug | true",
+					"trace | true");
+		}
+
+		@Test
+		public void isTraceEnabled() {
+			IsEnabled invoker = new IsEnabled() {
+				@Override
+				public boolean invoke(Logger logger) {
+					return logger.isTraceEnabled();
+				}
+			};
+			isEnabledTest(invoker,
+					"error | false",
+					"warn  | false",
+					"info  | false",
+					"debug | false",
+					"trace | true");
+		}
 	}
 
 	public static abstract class Base {
@@ -390,46 +396,48 @@ public class NablarchLoggerTest {
 		}
 	}
 
-	@Test
-	public void logLevelDoNotMatch() {
-		LoggerManager.get(""); //ロガー初期化のログを捨てるため、ここで一度Nablachのロガーを取得しておく
-		MockLogWriter.init();
-		Logger logger = LoggerFactory.getLogger("fatal");
-		logger.error("");
-		logger.error("", 1);
-		logger.error("", 1, 2);
-		logger.error("", 1, 2, 3);
-		logger.error("", new MockException());
-		logger.error("", 1, new MockException());
-		logger.error("", 1, 2, new MockException());
-		logger.warn("");
-		logger.warn("", 1);
-		logger.warn("", 1, 2);
-		logger.warn("", 1, 2, 3);
-		logger.warn("", new MockException());
-		logger.warn("", 1, new MockException());
-		logger.warn("", 1, 2, new MockException());
-		logger.info("");
-		logger.info("", 1);
-		logger.info("", 1, 2);
-		logger.info("", 1, 2, 3);
-		logger.info("", new MockException());
-		logger.info("", 1, new MockException());
-		logger.info("", 1, 2, new MockException());
-		logger.debug("");
-		logger.debug("", 1);
-		logger.debug("", 1, 2);
-		logger.debug("", 1, 2, 3);
-		logger.debug("", new MockException());
-		logger.debug("", 1, new MockException());
-		logger.debug("", 1, 2, new MockException());
-		logger.trace("");
-		logger.trace("", 1);
-		logger.trace("", 1, 2);
-		logger.trace("", 1, 2, 3);
-		logger.trace("", new MockException());
-		logger.trace("", 1, new MockException());
-		logger.trace("", 1, 2, new MockException());
-		assertTrue(MockLogWriter.getQueue().isEmpty());
+	public static class NablarchLoggerlogLevelDoNotMatchTest {
+		@Test
+		public void logLevelDoNotMatch() {
+			LoggerManager.get(""); //ロガー初期化のログを捨てるため、ここで一度Nablachのロガーを取得しておく
+			MockLogWriter.init();
+			Logger logger = LoggerFactory.getLogger("fatal");
+			logger.error("");
+			logger.error("", 1);
+			logger.error("", 1, 2);
+			logger.error("", 1, 2, 3);
+			logger.error("", new MockException());
+			logger.error("", 1, new MockException());
+			logger.error("", 1, 2, new MockException());
+			logger.warn("");
+			logger.warn("", 1);
+			logger.warn("", 1, 2);
+			logger.warn("", 1, 2, 3);
+			logger.warn("", new MockException());
+			logger.warn("", 1, new MockException());
+			logger.warn("", 1, 2, new MockException());
+			logger.info("");
+			logger.info("", 1);
+			logger.info("", 1, 2);
+			logger.info("", 1, 2, 3);
+			logger.info("", new MockException());
+			logger.info("", 1, new MockException());
+			logger.info("", 1, 2, new MockException());
+			logger.debug("");
+			logger.debug("", 1);
+			logger.debug("", 1, 2);
+			logger.debug("", 1, 2, 3);
+			logger.debug("", new MockException());
+			logger.debug("", 1, new MockException());
+			logger.debug("", 1, 2, new MockException());
+			logger.trace("");
+			logger.trace("", 1);
+			logger.trace("", 1, 2);
+			logger.trace("", 1, 2, 3);
+			logger.trace("", new MockException());
+			logger.trace("", 1, new MockException());
+			logger.trace("", 1, 2, new MockException());
+			assertTrue(MockLogWriter.getQueue().isEmpty());
+		}
 	}
 }

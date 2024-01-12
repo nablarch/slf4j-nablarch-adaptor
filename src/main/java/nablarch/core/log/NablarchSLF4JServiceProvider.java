@@ -9,14 +9,16 @@ import org.slf4j.spi.SLF4JServiceProvider;
 
 /**
  * {@link SLF4JServiceProvider }の実装クラス。
- * SLF4JのSimpleServiceProviderの実装を参考にしている。
+ *
+ * <p>SLF4JのSimpleServiceProviderの実装を参考にしている。
  * Marker、MDCはNablarchのログ出力ではサポートしていないため、対応対象外。
  */
 public class NablarchSLF4JServiceProvider implements SLF4JServiceProvider {
 
 	/**
 	 * ロギングの実装がサポートするSLF4JのAPIバージョンの最大値。
-	 * SimpleServiceProviderの実装を参考に設定したためpublicかつfinalを付与しないアクセス修飾子を設定している。
+	 * 
+	 * <p>SimpleServiceProviderの実装を参考に設定したためpublicかつfinalを付与しないアクセス修飾子を設定している。
 	 */
 	public static String REQUESTED_API_VERSION = "2.0.10";
 

@@ -20,7 +20,7 @@ public class NablarchSLF4JServiceProvider implements SLF4JServiceProvider {
 	 * 
 	 * <p>SimpleServiceProviderの実装を参考に設定したためpublicかつfinalを付与しないアクセス修飾子を設定している。
 	 */
-	public static String REQUESTED_API_VERSION = "2.0.10";
+	public static String REQUESTED_API_VERSION = "2.0.11";
 
 	private ILoggerFactory loggerFactory;
 	private IMarkerFactory markerFactory;

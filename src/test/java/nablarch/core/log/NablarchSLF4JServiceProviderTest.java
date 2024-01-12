@@ -21,6 +21,6 @@ public class NablarchSLF4JServiceProviderTest {
     @Test
     public void getRequestedApiVersion() {
         NablarchSLF4JServiceProvider provider = new NablarchSLF4JServiceProvider();
-        assertEquals("2.0.10", provider.getRequestedApiVersion());
+        assertEquals("2.0.11", provider.getRequestedApiVersion());
     }
 }
